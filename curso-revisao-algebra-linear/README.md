@@ -1,1 +1,1 @@
-Material do Curso de Reviso de Álbra Linear do Udacity.
+Material do Curso de Revisão de Álgebra Linear do Udacity.

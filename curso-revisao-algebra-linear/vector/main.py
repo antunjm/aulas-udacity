@@ -57,4 +57,5 @@ if __name__ == '__main__':
     print('exemple) {} . {} = {:.3f}'.format(v1, v2, v1 * v2))
     print(v1.magnitude())
     print(v2.magnitude())
-    print(v1.angle(v2))
+    #print(v1.angle(v2))
+    print(v1 ^ v2)

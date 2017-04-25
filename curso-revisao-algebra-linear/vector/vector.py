@@ -80,7 +80,8 @@ class Vector(object):
         except ZeroDivisionError:
             raise Exception('Cannot normalize the zero vector')
 
-    def angle(self, other):
+    def __xor__(self, other):
         dot_mult = self.__mul__(other)
         magnitude_mult = self.magnitude() * other.magnitude()
         return acos( dot_mult / magnitude_mult )
+

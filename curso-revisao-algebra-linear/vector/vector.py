@@ -11,8 +11,8 @@ class Vector(object):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple(coordinates)
-            #self.coordinates = tuple([Decimal(x) for x in coordinates])
+            #self.coordinates = tuple(coordinates)
+            self.coordinates = tuple([Decimal(x) for x in coordinates])
             self.dimension = len(coordinates)
             self.in_degrees = False
 
@@ -64,7 +64,7 @@ class Vector(object):
             return sum(coordinates_mul)
         else:
 	       # Vector * scalar
-            new_coordinates = [x*other for x in self.coordinates]
+            new_coordinates = [x * Decimal(other) for x in self.coordinates]
             return Vector(new_coordinates)
 
     def __rmul__(self, other):
@@ -79,13 +79,13 @@ class Vector(object):
         #    soma = soma + math.pow(self.coordinates[i], 2)
         #return sqrt(soma)
         coordinates_squared = [x**2 for x in self.coordinates]
-        return sqrt(sum(coordinates_squared))
+        return Decimal(sqrt(sum(coordinates_squared)))
 
     def normalized(self):
         try:
             magnitude = self.magnitude()
-            #return self * (Decimal('1.0') / magnitude)
-            return self * (1. / magnitude)
+            return self * (Decimal('1.0') / magnitude)
+            #return self * (1. / magnitude)
 
         except ZeroDivisionError:
             raise Exception(self.CANNNOT_NORMALIZE_ZERO_VECTOR_MSG)

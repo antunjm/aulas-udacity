@@ -1,12 +1,20 @@
-from math import sqrt, acos
+from math import sqrt, acos, degrees
+from decimal import Decimal, getcontext
+
+getcontext().prec = 30
 
 class Vector(object):
+
+    CANNNOT_NORMALIZE_ZERO_VECTOR_MSG = 'Cannot normalize the zero vector'
+
     def __init__(self, coordinates):
         try:
             if not coordinates:
                 raise ValueError
             self.coordinates = tuple(coordinates)
+            #self.coordinates = tuple([Decimal(x) for x in coordinates])
             self.dimension = len(coordinates)
+            self.in_degrees = False
 
         except ValueError:
             raise ValueError('The coordinates must be nonempty')
@@ -55,6 +63,7 @@ class Vector(object):
             coordinates_mul = [x*y for x,y in zip(self.coordinates, other.coordinates)]
             return sum(coordinates_mul)
         else:
+	       # Vector * scalar
             new_coordinates = [x*other for x in self.coordinates]
             return Vector(new_coordinates)
 
@@ -75,13 +84,33 @@ class Vector(object):
     def normalized(self):
         try:
             magnitude = self.magnitude()
+            #return self * (Decimal('1.0') / magnitude)
             return self * (1. / magnitude)
 
         except ZeroDivisionError:
-            raise Exception('Cannot normalize the zero vector')
+            raise Exception(self.CANNNOT_NORMALIZE_ZERO_VECTOR_MSG)
 
     def __xor__(self, other):
-        dot_mult = self.__mul__(other)
-        magnitude_mult = self.magnitude() * other.magnitude()
-        return acos( dot_mult / magnitude_mult )
+        try:
+            # Vector ^ Vector
+            #dot_mult = self.__mul__(other)
+            #magnitude_mult = self.magnitude() * other.magnitude()
+            #if self.in_degrees or other.in_degrees:
+            #    return degrees(acos( dot_mult / magnitude_mult ))
+            #else:
+            #    return acos( dot_mult / magnitude_mult )
+            u1 = self.normalized()
+            u2 = other.normalized()
+            angle_in_radians = acos(u1.__mul__(u2))
+
+            if self.in_degrees or other.in_degrees:
+                return degrees(angle_in_radians)
+            else:
+                return angle_in_radians
+
+        except Exception as e:
+            if str(e) == self.CANNNOT_NORMALIZE_ZERO_VECTOR_MSG:
+                raise Exception('Cannot find angle with a zero vector')
+            else:
+                raise e
 

@@ -70,3 +70,13 @@ if __name__ == '__main__':
     v2 = Vector([2.751, 8.259, 3.985])
     print('4) angle: {} ^ {} = {:.3f}°'.format(v1, v2, v1 ^ v2))
     print(FOOTER_DIV)
+
+  # Quiz 4
+    print('Quiz 4: Paralell and Orthogonal Vectors')
+
+    v1 = Vector([1, 1])
+    v2 = Vector([-1, -1])
+    #v2.in_degrees = True
+    #print('{} ^ {} = {:f}'.format(v1, v2, v1 ^ v2))
+    print('test: {} is parallel with {} ? : {}'.format(v1, v2, v1.is_parallel_with(v2)))
+
